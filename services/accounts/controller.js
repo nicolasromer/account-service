@@ -1,30 +1,12 @@
 const repository = require('./repository.js');
-
-
-const getPostData = (request, callback) => {
-    let body = '';
-
-    request.on('data', chunk => {
-        body += chunk.toString();
-    });
-
-    request.on('end', () => {
-        const json = body ? JSON.parse(body) : {};
-        callback(json);
-
-        return;
-    });
-}
+const requesto = require('../modules/requesto.js')
 
 /**
  * Check that this service is up
  * @param request
  * @param response
  */
-const healthCheck = (request, response) => {
-    response.writeHead(200, { 'Content-Type': 'text/json' });
-    response.end("{'success': 'true'}", 'utf-8');
-}
+const healthCheck = (response) => requesto.success(response,'very healthy! must be working out');
 
 /**
  * Create a payments account for a customer
@@ -32,32 +14,23 @@ const healthCheck = (request, response) => {
  * @param response
  */
 const createAccount = (request, response) => {
-    getPostData(request, (body) => {
+    requesto.getPostData(request, response, body => {
 
         if (!body.customerId) {
-            return badRequest(response, "customerId is required in the request");
+            return requesto.badRequest(response, "customerId is required in the request");
         }
 
         console.log('creating account for customer: ', body);
 
         const account = repository.create(body.customerId);
+
         console.log(account);
 
         // requestTransaction(account.id, body.initialCredit);
 
-        return success(response, 'created account for customer')
+        return requesto.success(response, 'created account for customer')
     })
 
-}
-
-const badRequest = (response, message) => {
-    response.writeHead(400, { 'Content-Type': 'text/json' });
-    response.end(`{"error": "${message}"}`, 'utf-8');
-}
-
-const success = (response, message) => {
-    response.writeHead(200, { 'Content-Type': 'text/json' });
-    response.end(`{"error": "${message}"}`, 'utf-8');
 }
 
 module.exports = { createAccount, healthCheck };
