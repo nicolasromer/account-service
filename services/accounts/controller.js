@@ -1,12 +1,13 @@
 const repository = require('./repository.js');
-const requesto = require('../modules/requesto.js')
+const requesto = require('./requesto.js')
+const transactionService = require('./transactionService.js');
 
 /**
  * Check that this service is up
  * @param request
  * @param response
  */
-const healthCheck = (response) => requesto.success(response,'very healthy! must be working out');
+const healthCheck = (request, response) => requesto.success(response,'very healthy! must be working out');
 
 /**
  * Create a payments account for a customer
@@ -26,11 +27,14 @@ const createAccount = (request, response) => {
 
         console.log(account);
 
-        // requestTransaction(account.id, body.initialCredit);
+        if (body.initialCredit > 0) {
+            transactionService.create(account.id, body.initialCredit, response => {
+                console.log(response);
+            });
+        }
 
         return requesto.success(response, 'created account for customer')
     })
-
 }
 
 module.exports = { createAccount, healthCheck };

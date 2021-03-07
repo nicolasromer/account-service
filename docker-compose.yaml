@@ -7,4 +7,8 @@ services:
       - "127.0.0.1:8000:5000"
     volumes:
       - ./services/accounts:/app
-      - ./services/modules:/modules
+
+  transactions:
+    build: ./services/transactions
+    ports:
+      - "5001"

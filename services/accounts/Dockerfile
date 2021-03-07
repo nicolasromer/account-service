@@ -2,10 +2,9 @@ FROM mhart/alpine-node:15
 
 ENV NODE_VERSION 15.11.0
 
-WORKDIR .
+WORKDIR ./app
 
-COPY app.js ./app
-COPY requesto.js ./modules
+COPY . .
 
 EXPOSE 5000
 
