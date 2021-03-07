@@ -13,7 +13,7 @@ class Account {
     credit(cents) {
         this.balance += cents
     }
-    
+
     uuid() {
         return crypto.randomUUID()
     }
