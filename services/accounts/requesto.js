@@ -11,6 +11,11 @@ const badRequest = (response, message = 'Bad Request') => {
     response.end(`{"error": "${message}"}`, 'utf-8');
 }
 
+const notFound = (response, message = 'Not Found') => {
+    response.writeHead(404, { 'Content-Type': 'text/json' });
+    response.end(`{"error": "${message}"}`, 'utf-8');
+}
+
 const internalError = (response, message = 'Internal Error') => {
     response.writeHead(500, { 'Content-Type': 'text/json' });
     response.end(`{"error": "${message}"}`, 'utf-8');
@@ -18,6 +23,11 @@ const internalError = (response, message = 'Internal Error') => {
 
 const success = (response, message = 'true') => {
     response.writeHead(200, { 'Content-Type': 'text/json' });
+    response.end(`{"success": "${message}"}`, 'utf-8');
+}
+
+const created = (response, message = 'true') => {
+    response.writeHead(201, { 'Content-Type': 'text/json' });
     response.end(`{"success": "${message}"}`, 'utf-8');
 }
 
@@ -43,7 +53,9 @@ const getPostData = (request, response, callback) => {
 
 module.exports = {
     badRequest,
+    notFound,
     internalError,
     success,
+    created,
     getPostData,
 }

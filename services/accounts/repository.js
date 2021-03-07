@@ -16,6 +16,11 @@ const create = (customerId) => {
     return account;
 }
 
+const read = (accountId) => {
+    // copy so they can't mutate the db
+    return { ...database[accountId] };
+}
+
 const addCredit = (customerId, cents) => {
     if (!database[customerId]) {
         throw new Error('customer not found');
@@ -28,5 +33,6 @@ const addCredit = (customerId, cents) => {
 
 module.exports = {
     create,
+    read,
     addCredit
 }

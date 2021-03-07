@@ -1,6 +1,8 @@
 const repository = require('./repository.js');
 const requesto = require('./requesto.js')
 const transactionService = require('./transactionService.js');
+const customerService = require('./customerService.js');
+const transformAccount = require('./accountTransformer.js');
 
 /**
  * Check that this service is up
@@ -33,8 +35,24 @@ const createAccount = (request, response) => {
             });
         }
 
-        return requesto.success(response, 'created account for customer')
+        return requesto.created(response, 'created account for customer')
     })
 }
 
-module.exports = { createAccount, healthCheck };
+/**
+ * Get an Account
+ */
+const getAccount = (response, accountId) => {
+    const account = repository.read(accountId);
+    if (!account) {
+        return requesto.notFound(response, 'No such account');
+    }
+
+    const customer = customerService.get(account.customerId);
+    const transactions = transactionService.getForAccount(accountId);
+
+    const result = transformAccount(customer, account, transactions);
+
+}
+
+module.exports = { createAccount, getAccount, healthCheck };

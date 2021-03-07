@@ -11,6 +11,11 @@ const healthCheck = (request, response) => {
     response.end(`{"success": "Just a healthful service here"}`, 'utf-8');
 }
 
+/**
+ * Create a new Transaction
+ * @param request
+ * @param response
+ */
 const createTransaction = (request, response) => {
     getPostData(request,response, body => {
         const {accountId, amount} = body;
@@ -24,6 +29,21 @@ const createTransaction = (request, response) => {
         response.writeHead(200, { 'Content-Type': 'text/json' });
         response.end(`{"success": "Transaction submitted"}`, 'utf-8');
     });
+}
+
+/**
+ * Get all transactions associated with an account
+ * @param response
+ * @param accountId
+ * @returns {string[]}
+ */
+const getForAccount = (response, accountId) => {
+    const body = repository.getForAccount(accountId);
+
+    // todo: transformer
+
+    response.writeHead(200, { 'Content-Type': 'text/json' });
+    response.end(body, 'utf-8');
 }
 
 const getPostData = (request, response, callback) => {
@@ -42,4 +62,4 @@ const getPostData = (request, response, callback) => {
     });
 }
 
-module.exports = { healthCheck, createTransaction };
+module.exports = { healthCheck, createTransaction, getForAccount };

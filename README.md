@@ -7,7 +7,7 @@ Internally the Account service communicates with a Transactions service to fulfi
 ## Account service layers
 1. `app.js` is the entrypoint, which kicks off the server
 2. `server.js` sends requests to the router, and finally catches errors from the rest of the app. 
-3. `router.js` decides whether a request is valid based on url and http verb, and pipes request to the correct controller method.
+3. `router.js` decides whether a request is valid based on url and http verb, and pipes request to the correct controller method. It also parses url arguments.
 4. `controller.js` handles the high-level business logic. for the request, and handles responses and more detailed errors.
 5. `repository.js` handles the details of storing and updating accounts in memory. It's the interface for our persistence mechanism.
 6. `Account.js` represents our Account entity. it contains uuid generation logic and structures the data stored. It uses class syntax to remind us that it is mutated.
@@ -17,5 +17,35 @@ Internally the Account service communicates with a Transactions service to fulfi
 - account service can be reached on port `8000`
 
 ### accounts service
-- `node services/accounts/app.js` will bring up the accounts container alone.
-- you can test account creation with `curl -X POST http://localhost:5000/account -d '{"customerId": 50}'` 
+tests:
+
+account creation with no credit:
+`curl -X POST http://localhost:8000/account -d '{"customerId": 50}'`
+expect `201 user created` with account record
+
+cannot create the same user twice
+`curl -X POST http://localhost:8000/account -d '{"customerId": 50}'`
+expect: `bad request: user already exists`
+
+account creation with credit:
+`curl -X POST http://localhost:8000/account -d '{"customerId": 5, "initialCredit":100}'`
+expect: `success user created, balance 0` (until the payment succeeds)
+
+create and then fetch account:
+`curl -X POST http://localhost:8000/account -d '{"customerId": 50}'`
+take account ID from response
+`curl http://localhost:8000/account/{accountId}`
+expect:
+```json
+{
+  "name": "van Gouda",
+  "surname": "Kaas",
+  "balance": 0,
+  "transactions": [
+    {
+      "amount": 100,
+      "status": "pending"
+    }
+  ]
+}
+```
