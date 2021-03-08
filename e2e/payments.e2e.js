@@ -3,7 +3,11 @@ const crypto = require('crypto')
 
 const accountsUrl = 'http://localhost:8000';
 
-
+console.log(`
+________________________
+Running End to End tests
+________________________
+`)
 
 async function testHealth() {
     console.log("TEST: /health returns 200");
@@ -78,6 +82,38 @@ async function testCreatingDuplicateAccountReturns400() {
     }
 
     console.log('FAIL: creating duplicate accounts succeeded');
+}
+
+async function testCreateAccountWithCredit() {
+    console.log("TEST: /create returns 201 with credited account");
+
+    const url = `${accountsUrl}/`;
+
+    const json = {
+        customerId: crypto.randomUUID(),
+        initialCredit: 100,
+    }
+
+    let response;
+    try {
+        response = await axios.post(url, json);
+    } catch (e) {
+        console.log('ERROR: ', e);
+        return;
+    }
+
+    console.log(
+        response.status === 201
+            ? 'PASS'
+            : `FAIL: /create returned code ${response.status}`
+    );
+
+    console.log(
+        response.data.customerId === json.customerId
+        && response.data.balance === 0
+            ? 'PASS'
+            : 'FAIL: returned entity is incorrect'
+    )
 }
 
 async function run() {

@@ -20,13 +20,15 @@ const create = (customerId) => {
 
     const account = new Account(customerId);
 
-    database[account.uuid] = account;
+    database[account.id] = account;
 
     return { ...account };
 }
 
 const addCredit = (accountId, cents) => {
-    // add credit to an account stored in the db.
+    database[accountId].credit(cents);
+
+    return { ...database[accountId] }
 }
 
 module.exports = {

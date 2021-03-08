@@ -14,7 +14,8 @@ Internally the Account service communicates with a Transactions service to fulfi
 
 ## Running locally
 - `docker-compose up` will bring up the services.
-- `make test` will run some e2e tests
+- `make build` will install deps needed for testing
+- `make test` will run some e2e tests against the docker network
 
 ### TODO: accounts service
 tests to write:

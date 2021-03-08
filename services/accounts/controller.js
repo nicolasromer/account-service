@@ -36,6 +36,8 @@ const createAccount = (request, response) => {
         if (initialCredit > 0) {
             transactionService.create(account.id, initialCredit, response => {
                 console.log(response);
+
+                repository.credit(account.id, initialCredit);
             });
         }
 
