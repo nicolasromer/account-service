@@ -14,18 +14,10 @@ Internally the Account service communicates with a Transactions service to fulfi
 
 ## Running locally
 - `docker-compose up` will bring up the services.
-- account service can be reached on port `8000`
+- `make test` will run some e2e tests
 
-### accounts service
-tests:
-
-account creation with no credit:
-`curl -X POST http://localhost:8000/account -d '{"customerId": 50}'`
-expect `201 user created` with account record
-
-cannot create the same user twice
-`curl -X POST http://localhost:8000/account -d '{"customerId": 50}'`
-expect: `bad request: user already exists`
+### TODO: accounts service
+tests to write:
 
 account creation with credit:
 `curl -X POST http://localhost:8000/account -d '{"customerId": 5, "initialCredit":100}'`

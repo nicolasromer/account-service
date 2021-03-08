@@ -26,9 +26,9 @@ const success = (response, message = 'true') => {
     response.end(`{"success": "${message}"}`, 'utf-8');
 }
 
-const created = (response, message = 'true') => {
+const created = (response, entity) => {
     response.writeHead(201, { 'Content-Type': 'text/json' });
-    response.end(`{"success": "${message}"}`, 'utf-8');
+    response.end(JSON.stringify(entity), 'utf-8');
 }
 
 const getPostData = (request, response, callback) => {

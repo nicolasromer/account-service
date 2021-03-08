@@ -10,7 +10,7 @@ module.exports = (request, response) => {
     }
 
     // POST /account
-    if (url === '/account' && method === 'POST') {
+    if (url === '/' && method === 'POST') {
         controller.createAccount(request, response)
         return;
     }
@@ -23,5 +23,5 @@ module.exports = (request, response) => {
         return;
     }
 
-    throw new Error('Bad Request');
+    throw new Error('This route does not exist');
 }

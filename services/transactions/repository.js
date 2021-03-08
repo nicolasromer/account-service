@@ -8,7 +8,7 @@ module.exports = {
 
         database[transaction.id] = transaction;
 
-        return transaction;
+        return {...transaction};
     },
     read: (transactionId) => {
         // copy so that it can't be mutated

@@ -17,25 +17,29 @@ const healthCheck = (request, response) => requesto.success(response,'very healt
  * @param response
  */
 const createAccount = (request, response) => {
-    requesto.getPostData(request, response, body => {
+    requesto.getPostData(request, response, ({ customerId, initialCredit }) => {
 
-        if (!body.customerId) {
+        if (!customerId) {
             return requesto.badRequest(response, "customerId is required in the request");
         }
 
-        console.log('creating account for customer: ', body);
+        if (repository.findOne({ customerId })) {
+            return requesto.badRequest(response, "an account for this customer already exists");
+        }
 
-        const account = repository.create(body.customerId);
+        console.log('creating account for customer: ', customerId);
+
+        const account = repository.create(customerId);
 
         console.log(account);
 
-        if (body.initialCredit > 0) {
-            transactionService.create(account.id, body.initialCredit, response => {
+        if (initialCredit > 0) {
+            transactionService.create(account.id, initialCredit, response => {
                 console.log(response);
             });
         }
 
-        return requesto.created(response, 'created account for customer')
+        return requesto.created(response, transformAccount(account))
     })
 }
 
@@ -44,15 +48,12 @@ const createAccount = (request, response) => {
  */
 const getAccount = (response, accountId) => {
     const account = repository.read(accountId);
+
     if (!account) {
         return requesto.notFound(response, 'No such account');
     }
 
-    const customer = customerService.get(account.customerId);
-    const transactions = transactionService.getForAccount(accountId);
-
-    const result = transformAccount(customer, account, transactions);
-
+    return requesto.success(response, transformAccount(account));
 }
 
 module.exports = { createAccount, getAccount, healthCheck };

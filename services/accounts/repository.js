@@ -2,37 +2,36 @@ const Account = require('./Account.js');
 
 const database = {};
 
+const read = (accountId) => {
+    return { ...database[accountId] };
+}
+
+const findOne = ({customerId}) => {
+    const result = Object.keys(database).filter(key => database[key].customerId === customerId);
+    return result.length ? { ...result } : null;
+}
+
 const create = (customerId) => {
-    const exists = Object.keys(database).filter(key => database[key].customerId === customerId).length;
+    const exists = findOne({ customerId });
 
     if (exists) {
-        throw new Error('account for this customer already exists')
+        return true;
     }
 
     const account = new Account(customerId);
 
     database[account.uuid] = account;
 
-    return account;
+    return { ...account };
 }
 
-const read = (accountId) => {
-    // copy so they can't mutate the db
-    return { ...database[accountId] };
-}
-
-const addCredit = (customerId, cents) => {
-    if (!database[customerId]) {
-        throw new Error('customer not found');
-    }
-
-    database[customerId].credit(cents);
-
-    return database[customerId];
+const addCredit = (accountId, cents) => {
+    // add credit to an account stored in the db.
 }
 
 module.exports = {
     create,
     read,
+    findOne,
     addCredit
 }

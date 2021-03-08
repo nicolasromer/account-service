@@ -1,2 +1,2 @@
 test:
-	curl -X POST http://localhost:8000/account -d '{"customerId": 50}'
+	node ./e2e/payments.e2e.js

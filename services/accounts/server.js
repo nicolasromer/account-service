@@ -7,7 +7,7 @@ module.exports = () => http.createServer(function (request, response) {
 
     try {
         route(request, response);
-    } catch {
-        requesto.badRequest(response);
+    } catch (e) {
+        requesto.badRequest(response, e.message);
     }
 });

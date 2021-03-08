@@ -1,9 +1,8 @@
 
-module.exports = (customer, account, transactions) => {
+module.exports = (account) => {
     return {
-        name: customer.name,
-        surname: customer.surname,
+        id: account.id,
+        customerId: account.customerId,
         balance: account.balance,
-        transactions,
     }
 }
