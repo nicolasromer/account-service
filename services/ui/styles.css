@@ -1,0 +1,15 @@
+body {
+    background: coral;
+    color: white;
+    font-family: helvetica;
+    margin: 20px 40px 100px;
+}
+
+form * {
+    display: block;
+}
+
+input {
+    margin-bottom: 30px;
+}
+

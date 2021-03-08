@@ -1,3 +1,9 @@
+start:
+	docker-compose up -d
+
+stop:
+	docker-compose down
+
 build:
 	cd ./e2e
 	npm install

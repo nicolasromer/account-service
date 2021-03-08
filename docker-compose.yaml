@@ -12,3 +12,10 @@ services:
     build: ./services/transactions
     ports:
       - "5001"
+
+  ui:
+    build: ./services/ui
+    ports:
+      - "127.0.0.1:8001:5002"
+    volumes:
+      - ./services/ui:/app
