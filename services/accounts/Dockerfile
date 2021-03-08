@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:15
+FROM mhart/alpine-node:slim-15
 
 ENV NODE_VERSION 15.11.0
 

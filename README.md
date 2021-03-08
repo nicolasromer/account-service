@@ -1,6 +1,8 @@
 # payments domain
 
-This exposes an API to create an account for a user, and initialize a transaction if necessary. 
+This exposes an API to create an account for a user, and initialize a transaction if necessary.
+
+We're missing some knowledge to finish the design, so a lot of imagination went into the specs. Many things are just stubs or mockups. My main goal here was to get a good local environment working with multiple services, and keep services completely decoupled and lightweight.
 
 Internally the Account service communicates with a Transactions service to fulfill credit orders.
 
@@ -16,6 +18,7 @@ Internally the Account service communicates with a Transactions service to fulfi
 - `docker-compose up` will bring up the services.
 - `make build` will install deps needed for testing
 - `make test` will run some e2e tests against the docker network
+- you can view the UI rough draft running at `http://localhost:8001/`
 
 ### TODO: accounts service
 tests to write:
