@@ -15,7 +15,8 @@ Internally the Account service communicates with a Transactions service to fulfi
 6. `Account.js` represents our Account entity. it contains uuid generation logic and structures the data stored. It uses class syntax to remind us that it is mutated.
 
 ## Running locally
-- `docker-compose up` will bring up the services.
+- requres docker, docker-compose, node 15 (`nvm use node 15`), 
+- `make start` will bring up the services.
 - `make build` will install deps needed for testing
 - `make test` will run some e2e tests against the docker network
 - you can view the UI rough draft running at `http://localhost:8001/`
