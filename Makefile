@@ -5,8 +5,8 @@ stop:
 	docker-compose down
 
 build:
-	cd ./e2e
-	npm install
+	cd ./e2e && npm install
+
 
 test:
 	node ./e2e/payments.e2e.js
